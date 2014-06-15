@@ -407,6 +407,7 @@
 				43F5CC0D194DF5F400419C19 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		43F5CC0E194DF5F400419C19 /* Build configuration list for PBXNativeTarget "Meme WarsTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +416,7 @@
 				43F5CC10194DF5F400419C19 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
