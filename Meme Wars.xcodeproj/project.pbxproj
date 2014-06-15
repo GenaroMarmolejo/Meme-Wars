@@ -1,0 +1,422 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		43F5CBF1194DF5F400419C19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5CBF0194DF5F400419C19 /* AppDelegate.swift */; };
+		43F5CBF3194DF5F400419C19 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 43F5CBF2194DF5F400419C19 /* GameScene.sks */; };
+		43F5CBF5194DF5F400419C19 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5CBF4194DF5F400419C19 /* GameScene.swift */; };
+		43F5CBF7194DF5F400419C19 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5CBF6194DF5F400419C19 /* GameViewController.swift */; };
+		43F5CBFA194DF5F400419C19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43F5CBF8194DF5F400419C19 /* Main.storyboard */; };
+		43F5CBFC194DF5F400419C19 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43F5CBFB194DF5F400419C19 /* Images.xcassets */; };
+		43F5CC08194DF5F400419C19 /* Meme_WarsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5CC07194DF5F400419C19 /* Meme_WarsTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		43F5CC02194DF5F400419C19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43F5CBE3194DF5F400419C19 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43F5CBEA194DF5F400419C19;
+			remoteInfo = "Meme Wars";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		43F5CBEB194DF5F400419C19 /* Meme Wars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Meme Wars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		43F5CBEF194DF5F400419C19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43F5CBF0194DF5F400419C19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		43F5CBF2194DF5F400419C19 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		43F5CBF4194DF5F400419C19 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		43F5CBF6194DF5F400419C19 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		43F5CBF9194DF5F400419C19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		43F5CBFB194DF5F400419C19 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		43F5CC01194DF5F400419C19 /* Meme WarsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Meme WarsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		43F5CC06194DF5F400419C19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43F5CC07194DF5F400419C19 /* Meme_WarsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meme_WarsTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		43F5CBE8194DF5F400419C19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43F5CBFE194DF5F400419C19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		43F5CBE2194DF5F400419C19 = {
+			isa = PBXGroup;
+			children = (
+				43F5CBED194DF5F400419C19 /* Meme Wars */,
+				43F5CC04194DF5F400419C19 /* Meme WarsTests */,
+				43F5CBEC194DF5F400419C19 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		43F5CBEC194DF5F400419C19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43F5CBEB194DF5F400419C19 /* Meme Wars.app */,
+				43F5CC01194DF5F400419C19 /* Meme WarsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		43F5CBED194DF5F400419C19 /* Meme Wars */ = {
+			isa = PBXGroup;
+			children = (
+				43F5CBF0194DF5F400419C19 /* AppDelegate.swift */,
+				43F5CBF2194DF5F400419C19 /* GameScene.sks */,
+				43F5CBF4194DF5F400419C19 /* GameScene.swift */,
+				43F5CBF6194DF5F400419C19 /* GameViewController.swift */,
+				43F5CBF8194DF5F400419C19 /* Main.storyboard */,
+				43F5CBFB194DF5F400419C19 /* Images.xcassets */,
+				43F5CBEE194DF5F400419C19 /* Supporting Files */,
+			);
+			path = "Meme Wars";
+			sourceTree = "<group>";
+		};
+		43F5CBEE194DF5F400419C19 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				43F5CBEF194DF5F400419C19 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		43F5CC04194DF5F400419C19 /* Meme WarsTests */ = {
+			isa = PBXGroup;
+			children = (
+				43F5CC07194DF5F400419C19 /* Meme_WarsTests.swift */,
+				43F5CC05194DF5F400419C19 /* Supporting Files */,
+			);
+			path = "Meme WarsTests";
+			sourceTree = "<group>";
+		};
+		43F5CC05194DF5F400419C19 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				43F5CC06194DF5F400419C19 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		43F5CBEA194DF5F400419C19 /* Meme Wars */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43F5CC0B194DF5F400419C19 /* Build configuration list for PBXNativeTarget "Meme Wars" */;
+			buildPhases = (
+				43F5CBE7194DF5F400419C19 /* Sources */,
+				43F5CBE8194DF5F400419C19 /* Frameworks */,
+				43F5CBE9194DF5F400419C19 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Meme Wars";
+			productName = "Meme Wars";
+			productReference = 43F5CBEB194DF5F400419C19 /* Meme Wars.app */;
+			productType = "com.apple.product-type.application";
+		};
+		43F5CC00194DF5F400419C19 /* Meme WarsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43F5CC0E194DF5F400419C19 /* Build configuration list for PBXNativeTarget "Meme WarsTests" */;
+			buildPhases = (
+				43F5CBFD194DF5F400419C19 /* Sources */,
+				43F5CBFE194DF5F400419C19 /* Frameworks */,
+				43F5CBFF194DF5F400419C19 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				43F5CC03194DF5F400419C19 /* PBXTargetDependency */,
+			);
+			name = "Meme WarsTests";
+			productName = "Meme WarsTests";
+			productReference = 43F5CC01194DF5F400419C19 /* Meme WarsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		43F5CBE3194DF5F400419C19 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Julio César Guzman";
+				TargetAttributes = {
+					43F5CBEA194DF5F400419C19 = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					43F5CC00194DF5F400419C19 = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = 43F5CBEA194DF5F400419C19;
+					};
+				};
+			};
+			buildConfigurationList = 43F5CBE6194DF5F400419C19 /* Build configuration list for PBXProject "Meme Wars" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 43F5CBE2194DF5F400419C19;
+			productRefGroup = 43F5CBEC194DF5F400419C19 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				43F5CBEA194DF5F400419C19 /* Meme Wars */,
+				43F5CC00194DF5F400419C19 /* Meme WarsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		43F5CBE9194DF5F400419C19 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43F5CBFC194DF5F400419C19 /* Images.xcassets in Resources */,
+				43F5CBF3194DF5F400419C19 /* GameScene.sks in Resources */,
+				43F5CBFA194DF5F400419C19 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43F5CBFF194DF5F400419C19 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		43F5CBE7194DF5F400419C19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43F5CBF5194DF5F400419C19 /* GameScene.swift in Sources */,
+				43F5CBF7194DF5F400419C19 /* GameViewController.swift in Sources */,
+				43F5CBF1194DF5F400419C19 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43F5CBFD194DF5F400419C19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43F5CC08194DF5F400419C19 /* Meme_WarsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		43F5CC03194DF5F400419C19 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43F5CBEA194DF5F400419C19 /* Meme Wars */;
+			targetProxy = 43F5CC02194DF5F400419C19 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		43F5CBF8194DF5F400419C19 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				43F5CBF9194DF5F400419C19 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		43F5CC09194DF5F400419C19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		43F5CC0A194DF5F400419C19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		43F5CC0C194DF5F400419C19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = "Meme Wars/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		43F5CC0D194DF5F400419C19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = "Meme Wars/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		43F5CC0F194DF5F400419C19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Meme Wars.app/Meme Wars";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Meme WarsTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		43F5CC10194DF5F400419C19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Meme Wars.app/Meme Wars";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Meme WarsTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		43F5CBE6194DF5F400419C19 /* Build configuration list for PBXProject "Meme Wars" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43F5CC09194DF5F400419C19 /* Debug */,
+				43F5CC0A194DF5F400419C19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43F5CC0B194DF5F400419C19 /* Build configuration list for PBXNativeTarget "Meme Wars" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43F5CC0C194DF5F400419C19 /* Debug */,
+				43F5CC0D194DF5F400419C19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		43F5CC0E194DF5F400419C19 /* Build configuration list for PBXNativeTarget "Meme WarsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43F5CC0F194DF5F400419C19 /* Debug */,
+				43F5CC10194DF5F400419C19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 43F5CBE3194DF5F400419C19 /* Project object */;
+}
