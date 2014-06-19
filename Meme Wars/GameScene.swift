@@ -11,6 +11,8 @@ import SpriteKit
 class GameScene: SKScene
 {
     
+    var field : SKFieldNode!
+    
     override func didMoveToView(view: SKView)
     {
         /* Setup your scene here */
@@ -20,6 +22,12 @@ class GameScene: SKScene
         myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
         
         self.addChild(myLabel)
+        
+        field = SKFieldNode.magneticField()
+        
+        field.strength = 200
+        
+        
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
