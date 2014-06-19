@@ -10,49 +10,51 @@ import SpriteKit
 
 class GameScene: SKScene
 {
-    
-    var field : SKFieldNode!
+    var player: SKSpriteNode!
     
     override func didMoveToView(view: SKView)
     {
         /* Setup your scene here */
         let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!";
+        let midscreen = CGPoint(x:200.0, y:100.0);
+        myLabel.text = "100%";
         myLabel.fontSize = 65;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
+        myLabel.position = midscreen
         
-        self.addChild(myLabel)
-        
-        field = SKFieldNode.magneticField()
-        
-        field.strength = 200
-        field.enabled = false
-        field.falloff = 0
+        player = SKSpriteNode(imageNamed:"Spaceship")
+            
+        player.xScale = 0.25
+        player.yScale = 0.25
+        player.position = midscreen
+
+        player.addChild(myLabel)
+        self.addChild(player)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
     {
         /* Called when a touch begins */
-        
+        /*
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
-            field.enabled = true
-            field.position = location
+            player.runAction(SKAction.moveTo(location,duration: 0.1))
+            //SKAction.followPath(path: CGPath!, speed: 1.0)
+            //sprite.runAction(SKAction.repeatActionForever(action))
         }
+        */
         
-       
+    }
+    
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
+    {
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            
+            player.runAction(SKAction.moveTo(location,duration: 0.1))
+            //SKAction.followPath(path: CGPath!, speed: 1.0)
+            //sprite.runAction(SKAction.repeatActionForever(action))
+        }
     }
    
     override func update(currentTime: CFTimeInterval)
