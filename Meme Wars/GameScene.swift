@@ -26,8 +26,8 @@ class GameScene: SKScene
         field = SKFieldNode.magneticField()
         
         field.strength = 200
-        
-        
+        field.enabled = false
+        field.falloff = 0
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
@@ -48,6 +48,8 @@ class GameScene: SKScene
             sprite.runAction(SKAction.repeatActionForever(action))
             
             self.addChild(sprite)
+            field.enabled = true
+            field.position = location
         }
         
        
