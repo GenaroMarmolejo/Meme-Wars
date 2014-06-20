@@ -8,7 +8,15 @@
 
 import SpriteKit
 
-class Spaceship : SKSpriteNode
+class Superclase
+{
+    init(imageNamed name: String)
+    {
+        NSLog("%@", name)
+    }
+}
+
+class Spaceship : Superclase
 {
     var lifeText: String!
     var life: Int
@@ -16,7 +24,6 @@ class Spaceship : SKSpriteNode
         get{ return self.life }
         set{ lifeText = "❤️\(newValue)%" }
     }
-    
     
     init(imageNamed name: String!)
     {
