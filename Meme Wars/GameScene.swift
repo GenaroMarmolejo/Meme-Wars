@@ -7,70 +7,109 @@
 //
 
 import SpriteKit
+import CoreGraphics
 
-class Superclase
+var π = 3.141592
+
+var contador = 0
+class Spaceship : SKSpriteNode
 {
-    init(imageNamed name: String)
+    var lifeLabel : SKLabelNode!
+    var life: Int!
     {
-        NSLog("%@", name)
+        didSet
+        {
+            lifeLabel.text = "❤️\(self.life)%"
+        }
     }
-}
-
-class Spaceship : Superclase
-{
-    var lifeText: String!
-    var life: Int
+    
+    init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
-        get{ return self.life }
-        set{ lifeText = "❤️\(newValue)%" }
+        super.init(texture: texture, color: color, size: size)
+    }
+    
+    init(texture: SKTexture!)
+    {
+        super.init(texture: texture)
     }
     
     init(imageNamed name: String!)
     {
         super.init(imageNamed: name )
+        
+        // Setup physics body
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 200)
+        self.physicsBody.dynamic = true;
+        self.physicsBody.contactTestBitMask = 1
+        
+        // Setup Label
+        lifeLabel = SKLabelNode(fontNamed:"Chalkduster")
+        let midscreen = CGPoint(x: 200.0, y:100.0);
+        lifeLabel.fontSize = 65;
+        lifeLabel.position = midscreen
+        lifeLabel.fontColor = UIColor.whiteColor()
+        self.addChild(lifeLabel)
+        
+        //Setup Player
+        self.xScale = 0.15
+        self.yScale = 0.15
+        self.life = 100
+    }
+    
+    func shoot()
+    {
+        var bullet = SKSpriteNode(imageNamed: "spark")
+        self.parent.addChild(bullet)
+        bullet.physicsBody = SKPhysicsBody(circleOfRadius: 1)
+        bullet.xScale = 1
+        bullet.yScale = 1
+        
+        var offset : CGFloat = CGFloat(π/2)
+        var vector = CGVectorMake(0.0, 10.0 * sin(self.zRotation + offset) )
+        bullet.physicsBody.applyForce( vector )
+        bullet.position =  CGPoint(x: self.position.x , y: self.position.y + 50 )
+     
     }
 }
 
 
-class GameScene: SKScene
+class GameScene: SKScene, SKPhysicsContactDelegate
 {
-    var player: SKSpriteNode!
-    
+    var player1: Spaceship!
+    var player2: Spaceship!
     override func didMoveToView(view: SKView)
     {
-        
-        self.backgroundColor = UIColor.whiteColor()
-        
         /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        let midscreen = CGPoint(x:200.0, y:100.0);
-        myLabel.text = "100%";
-        myLabel.fontSize = 65;
-        myLabel.position = midscreen
-        myLabel.fontColor = UIColor.blackColor()
-        //player = Spaceship()
-        player = SKSpriteNode(imageNamed:"Spaceship")
-        player.xScale = 0.15
-        player.yScale = 0.15
-        player.position = midscreen
-        Spaceship(imageNamed:"Spaceship")
-       
-        player.addChild(myLabel)
-        self.addChild(player)
+        self.backgroundColor = UIColor.blackColor()
+        self.physicsWorld.gravity = CGVector(0,0)
+        self.physicsWorld.contactDelegate = self
+        
+        player1 = Spaceship(imageNamed:"Spaceship")
+        player2 = Spaceship(imageNamed:"Spaceship")
+        self.addChild(player1)
+        self.addChild(player2)
+        
+        player2.zRotation = CGFloat(π)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
     {
         /* Called when a touch begins */
-        /*
+        
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             
-            player.runAction(SKAction.moveTo(location,duration: 0.1))
-            //SKAction.followPath(path: CGPath!, speed: 1.0)
-            //sprite.runAction(SKAction.repeatActionForever(action))
+            if location.y >= 768/2
+                
+            {
+                player2.shoot()
+            }
+            else
+            {
+                player1.shoot()
+            }
         }
-        */
+
         
     }
     
@@ -79,13 +118,34 @@ class GameScene: SKScene
         for touch: AnyObject in touches
         {
             let location = touch.locationInNode(self)
-            player.runAction(SKAction.moveTo(location,duration: 0.1))
+            if location.y >= 768/2
+                
+            {
+                player2.runAction(SKAction.moveTo(location,duration: 0.1))
+            }
+            else
+            {
+                player1.runAction(SKAction.moveTo(location,duration: 0.1))
+            }
         }
     }
    
     override func update(currentTime: CFTimeInterval)
     {
         /* Called before each frame is rendered */
-       
     }
+    
+    func didBeginContact(contact: SKPhysicsContact!)
+    {
+       // NSLog("Contact detected")
+        if contact.bodyA.node is Spaceship
+        {
+            let a : Spaceship = contact.bodyA.node as Spaceship
+            a.life = a.life - 1
+        }
+     
+    }
+    
+    
+    
 }
