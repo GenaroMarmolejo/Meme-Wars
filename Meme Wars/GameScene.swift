@@ -12,7 +12,10 @@ import CoreGraphics
 var π = 3.141592
 
 var contador = 0
-class Spaceship : SKSpriteNode
+
+
+
+class Gun : SKSpriteNode
 {
     var lifeLabel : SKLabelNode!
     var life: Int!
@@ -20,6 +23,15 @@ class Spaceship : SKSpriteNode
         didSet
         {
             lifeLabel.text = "❤️\(self.life)%"
+        }
+    }
+    var objective: SKNode!
+    {
+        didSet
+        {
+            var range : SKRange = SKRange(constantValue: -π / 2)
+            var constraintToObjective : SKConstraint = SKConstraint.orientToNode(self.objective, offset:range)
+            self.constraints = [constraintToObjective]
         }
     }
     
@@ -54,6 +66,14 @@ class Spaceship : SKSpriteNode
         self.xScale = 0.15
         self.yScale = 0.15
         self.life = 100
+        
+        //Setup Force Field
+//        var field = SKFieldNode.radialGravityField()
+//        field.strength = 100
+//        field.falloff = 0.5
+//        self.addChild(field)
+//        self.physicsBody.fieldBitMask = 0
+        
     }
     
     func shoot()
@@ -61,22 +81,26 @@ class Spaceship : SKSpriteNode
         var bullet = SKSpriteNode(imageNamed: "spark")
         self.parent.addChild(bullet)
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: 1)
-        bullet.xScale = 1
-        bullet.yScale = 1
+        bullet.xScale = 0.1
+        bullet.yScale = 0.1
         
         var offset : CGFloat = CGFloat(π/2)
-        var vector = CGVectorMake(0.0, 10.0 * sin(self.zRotation + offset) )
+        var vector = CGVectorMake(10.0 * cos(self.zRotation + offset), 10.0 * sin(self.zRotation + offset) )
         bullet.physicsBody.applyForce( vector )
-        bullet.position =  CGPoint(x: self.position.x , y: self.position.y + 50 )
-     
+        bullet.position =  CGPoint(x: self.position.x + 50 * cos(self.zRotation + offset) , y: self.position.y + 50 * sin(self.zRotation + offset) )
+    }
+    
+    func die()
+    {
+        self.removeFromParent()
     }
 }
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
-    var player1: Spaceship!
-    var player2: Spaceship!
+    var gun1: Gun!
+    var gun2: Gun!
     override func didMoveToView(view: SKView)
     {
         /* Setup your scene here */
@@ -84,12 +108,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.physicsWorld.gravity = CGVector(0,0)
         self.physicsWorld.contactDelegate = self
         
-        player1 = Spaceship(imageNamed:"Spaceship")
-        player2 = Spaceship(imageNamed:"Spaceship")
-        self.addChild(player1)
-        self.addChild(player2)
+        gun1 = Gun(imageNamed:"Turret")
+        gun2 = Gun(imageNamed:"Turret")
         
-        player2.zRotation = CGFloat(π)
+        gun1.objective = gun2
+        gun2.objective = gun1
+        
+        self.addChild(gun1)
+        self.addChild(gun2)
+        
+        
+        gun2.zRotation = CGFloat(π)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
@@ -100,13 +129,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             let location = touch.locationInNode(self)
             
             if location.y >= 768/2
-                
             {
-                player2.shoot()
+                gun2.shoot()
             }
             else
             {
-                player1.shoot()
+                gun1.shoot()
             }
         }
 
@@ -121,11 +149,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             if location.y >= 768/2
                 
             {
-                player2.runAction(SKAction.moveTo(location,duration: 0.1))
+                gun2.runAction(SKAction.moveTo(location,duration: 0.1))
             }
             else
             {
-                player1.runAction(SKAction.moveTo(location,duration: 0.1))
+                gun1.runAction(SKAction.moveTo(location,duration: 0.1))
             }
         }
     }
@@ -137,12 +165,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     func didBeginContact(contact: SKPhysicsContact!)
     {
-       // NSLog("Contact detected")
-        if contact.bodyA.node is Spaceship
+        if contact.bodyA.node is Gun
         {
-            let a : Spaceship = contact.bodyA.node as Spaceship
+            let a : Gun = contact.bodyA.node as Gun
             a.life = a.life - 1
+            if contact.bodyB.node is Gun
+            {
+            }
+            else
+            {
+                 contact.bodyB.node.removeFromParent()
+            }
         }
+       
      
     }
     
