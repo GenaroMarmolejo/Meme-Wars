@@ -21,15 +21,19 @@ class Spaceship : SKSpriteNode
             lifeLabel.text = "❤️\(self.life)%"
         }
     }
-    var objective: SKNode!
+    var objective: Spaceship!
     {
         didSet
         {
             var range : SKRange = SKRange(constantValue: -π / 2)
             var constraintToObjective : SKConstraint = SKConstraint.orientToNode(self.objective, offset:range)
             self.constraints = [constraintToObjective]
+            
+            // Add objective to gun
+            gun.objective = objective
         }
     }
+    var gun: Gun!
     
     init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
@@ -62,7 +66,62 @@ class Spaceship : SKSpriteNode
         self.xScale = 0.15
         self.yScale = 0.15
         self.life = 100
+        
+        //Setup Guns
+        gun = Gun(imageNamed: "Turret")
+        gun.position = CGPoint(x:500.0, y:0.0)
+        gun.xScale = 0.25
+        gun.yScale = 0.25
+        
+        
+        self.addChild(gun)
+        
     }
+    
+    func shoot()
+    {
+        var shoot = SKAction.runBlock({
+            
+             self.gun.shoot()
+        })
+        
+        var wait = SKAction.waitForDuration(0.1)
+        var sequence = SKAction.sequence([shoot, wait])
+        var repeat = SKAction.repeatActionForever(sequence)
+        
+        self.runAction(repeat)
+        
+    }
+}
+
+class Ammunition : SKSpriteNode
+{
+    var damage: Int = 1
+    
+    init()
+    {
+        super.init(imageNamed: "spark")
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 1)
+        self.xScale = 0.1
+        self.yScale = 0.1
+    }
+    
+    init(texture: SKTexture!, color: UIColor!, size: CGSize)
+    {
+        super.init(texture: texture, color: color, size: size)
+    }
+    
+    init(texture: SKTexture!)
+    {
+        super.init(texture: texture)
+    }
+    
+    init(imageNamed name: String!)
+    {
+        super.init(imageNamed: name)
+    }
+    
+    
 }
 
 class Gun : SKSpriteNode
@@ -72,14 +131,18 @@ class Gun : SKSpriteNode
     {
         didSet
         {
-            var node = SKNode()
-            objective.addChild(node)
-            var range : SKRange = SKRange(constantValue:-π / 2)
-            var constraintToObjective : SKConstraint = SKConstraint.orientToPoint(CGPoint(x: -objective.lifeLabel.position.x,y: -objective.lifeLabel.position.y ), inNode: objective.lifeLabel, offset:range)
+            var target = SKNode()
+            objective.addChild(target)
+            var range : SKRange = SKRange(constantValue: -π / 2 )
+            var constraintToObjective : SKConstraint = SKConstraint.orientToPoint(CGPointZero, inNode: target, offset:range)
             self.constraints = [constraintToObjective]
         }
     }
     
+    init()
+    {
+        super.init()
+    }
     
     init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
@@ -104,20 +167,19 @@ class Gun : SKSpriteNode
     
     func shoot()
     {
-        var bullet = SKSpriteNode(imageNamed: "spark")
+    
+        var bullet = Ammunition()
         self.parent.parent.addChild(bullet)
-        bullet.physicsBody = SKPhysicsBody(circleOfRadius: 1)
-        bullet.xScale = 0.1
-        bullet.yScale = 0.1
         
         var offset : CGFloat = CGFloat(π/2)
         var angulo = self.zRotation + self.parent.zRotation + offset
-        var vector = CGVectorMake(10.0 * cos(angulo), 10.0 * sin(angulo) )
+        var vector = CGVectorMake(500.0 * cos(angulo), 500.0 * sin(angulo) )
         
-        bullet.physicsBody.applyForce( vector )
-       
-        bullet.position =  CGPoint(x: self.parent.position.x + 50 * cos(angulo) , y: self.parent.position.y + 50 * sin(angulo) )
+        bullet.physicsBody.velocity = vector
+        var point = self.convertPoint(CGPointZero, toNode: self.parent.parent)
+        bullet.position = CGPoint(x: point.x + 5 * cos(angulo) , y: point.y + 5 * sin(angulo))
     }
+    
     
     func die()
     {
@@ -125,12 +187,10 @@ class Gun : SKSpriteNode
     }
 }
 
-
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
     var player1: Spaceship!
     var player2: Spaceship!
-    var gun: Gun!
     
     func clean()
     {
@@ -145,26 +205,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Setup Spaceships
         player1 = Spaceship(imageNamed: "Spaceship")
         player2 = Spaceship(imageNamed: "Spaceship")
-        gun = Gun(imageNamed: "Turret")
         
         player1.life = 100
         player2.life = 100
-        gun.life = 100
-    
-        //player1.objective = player2
-        player2.objective = player1
-        gun.objective = player2
+     
+        player1.objective = player2
+        player2.gun.objective = player1
+        
+        player1.shoot()
+        
         
         player1.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 200)
         player2.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 200)
-        gun.position = CGPointZero
         
         self.addChild(player1)
         self.addChild(player2)
-        self.player1.addChild(gun)
-
-       
-
 
     }
     
@@ -183,9 +238,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         /* Called when a touch begins */
         
-        for touch: AnyObject in touches {
+        for touch: AnyObject in touches
+        {
             let location = touch.locationInNode(self)
-
+            self.physicsWorld.speed = 1.0
         }
         
     }
@@ -202,16 +258,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
     {
-        
+        self.physicsWorld.speed = 0.2
     }
    
     override func update(currentTime: CFTimeInterval)
     {
-
+        for child : AnyObject in self.children
+        {
+            if child.position.x > self.size.width
+            {
+                child.removeFromParent()
+            }
+            if child.position.x < 0
+            {
+                 child.removeFromParent()
+            }
+            if child.position.y > self.size.height
+            {
+                child.removeFromParent()
+            }
+            if child.position.y < 0
+            {
+                child.removeFromParent()
+            }
+            
+        }
     }
     
     func didBeginContact(contact: SKPhysicsContact!)
     {
+        if  contact.bodyA.node is Spaceship
+        {
+            let ship = contact.bodyA.node as Spaceship
+            if contact.bodyB.node is Ammunition
+            {
+                let ammo = contact.bodyB.node as Ammunition
+                ship.life = ship.life - ammo.damage
+            }
+            
+        }
+        
         
     }
     
