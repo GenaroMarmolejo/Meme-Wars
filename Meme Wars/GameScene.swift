@@ -68,12 +68,14 @@ class Spaceship : SKSpriteNode
 class Gun : SKSpriteNode
 {
     var life: Int!
-    var objective: SKNode!
+    var objective: Spaceship!
     {
         didSet
         {
-            var range : SKRange = SKRange(constantValue: -π / 2)
-            var constraintToObjective : SKConstraint = SKConstraint.orientToNode(self.objective, offset:range)
+            var node = SKNode()
+            objective.addChild(node)
+            var range : SKRange = SKRange(constantValue:-π / 2)
+            var constraintToObjective : SKConstraint = SKConstraint.orientToPoint(CGPoint(x: -objective.lifeLabel.position.x,y: -objective.lifeLabel.position.y ), inNode: objective.lifeLabel, offset:range)
             self.constraints = [constraintToObjective]
         }
     }
@@ -160,12 +162,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.addChild(player1)
         self.addChild(player2)
         self.player1.addChild(gun)
-        NSLog("gunz \(gun.zPosition)")
-        NSLog()
-        var range : SKRange = SKRange(constantValue:-π / 2)
-        var constraintToObjective : SKConstraint = SKConstraint.orientToPoint(CGPoint(x: -player2.lifeLabel.position.x,y: -player2.lifeLabel.position.y ), inNode: player2.lifeLabel, offset:range)
-        constraintToObjective.referenceNode = self
-        gun.constraints = [constraintToObjective]
+
+       
 
 
     }
