@@ -162,11 +162,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.player1.addChild(gun)
         
         var range : SKRange = SKRange(constantValue:-π / 2)
-        var constraintToObjective : SKConstraint = SKConstraint.orientToNode(player2, offset:range)
-        constraintToObjective.referenceNode = player1
+        var constraintToObjective : SKConstraint = SKConstraint.orientToPoint(player2.position, inNode: self, offset: range) // SKConstraint.orientToNode(player2, offset:range)
+        constraintToObjective.referenceNode = gun
         gun.constraints = [constraintToObjective]
 
-    
 
     }
     
