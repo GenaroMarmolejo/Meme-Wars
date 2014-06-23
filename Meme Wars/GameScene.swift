@@ -94,8 +94,8 @@ class Gun : SKSpriteNode
         super.init(imageNamed: name )
         
         //Setup Gun
-        self.xScale = 0.25
-        self.yScale = 0.25
+        self.xScale = 1
+        self.yScale = 1
         self.life = 100
         
     }
@@ -160,10 +160,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.addChild(player1)
         self.addChild(player2)
         self.player1.addChild(gun)
-        
+        NSLog("gunz \(gun.zPosition)")
+        NSLog()
         var range : SKRange = SKRange(constantValue:-π / 2)
-        var constraintToObjective : SKConstraint = SKConstraint.orientToPoint(player2.position, inNode: self, offset: range) // SKConstraint.orientToNode(player2, offset:range)
-        constraintToObjective.referenceNode = gun
+        var constraintToObjective : SKConstraint = SKConstraint.orientToPoint(CGPoint(x: -player2.lifeLabel.position.x,y: -player2.lifeLabel.position.y ), inNode: player2.lifeLabel, offset:range)
+        constraintToObjective.referenceNode = self
         gun.constraints = [constraintToObjective]
 
 
