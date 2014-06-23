@@ -11,11 +11,7 @@ import CoreGraphics
 
 var π = 3.141592
 
-var contador = 0
-
-
-
-class Gun : SKSpriteNode
+class Spaceship : SKSpriteNode
 {
     var lifeLabel : SKLabelNode!
     var life: Int!
@@ -62,32 +58,63 @@ class Gun : SKSpriteNode
         lifeLabel.fontColor = UIColor.whiteColor()
         self.addChild(lifeLabel)
         
-        //Setup Player
+        //Setup Spaceship
         self.xScale = 0.15
         self.yScale = 0.15
         self.life = 100
+    }
+}
+
+class Gun : SKSpriteNode
+{
+    var life: Int!
+    var objective: SKNode!
+    {
+        didSet
+        {
+            var range : SKRange = SKRange(constantValue: -π / 2)
+            var constraintToObjective : SKConstraint = SKConstraint.orientToNode(self.objective, offset:range)
+            self.constraints = [constraintToObjective]
+        }
+    }
+    
+    
+    init(texture: SKTexture!, color: UIColor!, size: CGSize)
+    {
+        super.init(texture: texture, color: color, size: size)
+    }
+    
+    init(texture: SKTexture!)
+    {
+        super.init(texture: texture)
+    }
+    
+    init(imageNamed name: String!)
+    {
+        super.init(imageNamed: name )
         
-        //Setup Force Field
-//        var field = SKFieldNode.radialGravityField()
-//        field.strength = 100
-//        field.falloff = 0.5
-//        self.addChild(field)
-//        self.physicsBody.fieldBitMask = 0
+        //Setup Gun
+        self.xScale = 0.25
+        self.yScale = 0.25
+        self.life = 100
         
     }
     
     func shoot()
     {
         var bullet = SKSpriteNode(imageNamed: "spark")
-        self.parent.addChild(bullet)
+        self.parent.parent.addChild(bullet)
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: 1)
         bullet.xScale = 0.1
         bullet.yScale = 0.1
         
         var offset : CGFloat = CGFloat(π/2)
-        var vector = CGVectorMake(10.0 * cos(self.zRotation + offset), 10.0 * sin(self.zRotation + offset) )
+        var angulo = self.zRotation + self.parent.zRotation + offset
+        var vector = CGVectorMake(10.0 * cos(angulo), 10.0 * sin(angulo) )
+        
         bullet.physicsBody.applyForce( vector )
-        bullet.position =  CGPoint(x: self.position.x + 50 * cos(self.zRotation + offset) , y: self.position.y + 50 * sin(self.zRotation + offset) )
+       
+        bullet.position =  CGPoint(x: self.parent.position.x + 50 * cos(angulo) , y: self.parent.position.y + 50 * sin(angulo) )
     }
     
     func die()
@@ -99,26 +126,59 @@ class Gun : SKSpriteNode
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
-    var gun1: Gun!
-    var gun2: Gun!
+    var player1: Spaceship!
+    var player2: Spaceship!
+    var gun: Gun!
+    
+    func clean()
+    {
+        for sprite:AnyObject in self.children
+        {
+            sprite.removeFromParent()
+        }
+    }
+    
+    func setup()
+    {
+        //Setup Spaceships
+        player1 = Spaceship(imageNamed: "Spaceship")
+        player2 = Spaceship(imageNamed: "Spaceship")
+        gun = Gun(imageNamed: "Turret")
+        
+        player1.life = 100
+        player2.life = 100
+        gun.life = 100
+    
+        //player1.objective = player2
+        player2.objective = player1
+        gun.objective = player2
+        
+        player1.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 200)
+        player2.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 200)
+        gun.position = CGPointZero
+        
+        self.addChild(player1)
+        self.addChild(player2)
+        self.player1.addChild(gun)
+        
+        var range : SKRange = SKRange(constantValue:-π / 2)
+        var constraintToObjective : SKConstraint = SKConstraint.orientToNode(player2, offset:range)
+        constraintToObjective.referenceNode = player1
+        gun.constraints = [constraintToObjective]
+
+    
+
+    }
+    
     override func didMoveToView(view: SKView)
     {
         /* Setup your scene here */
         self.backgroundColor = UIColor.blackColor()
         self.physicsWorld.gravity = CGVector(0,0)
         self.physicsWorld.contactDelegate = self
+
+        self.setup()
         
-        gun1 = Gun(imageNamed:"Turret")
-        gun2 = Gun(imageNamed:"Turret")
-        
-        gun1.objective = gun2
-        gun2.objective = gun1
-        
-        self.addChild(gun1)
-        self.addChild(gun2)
-        
-        
-        gun2.zRotation = CGFloat(π)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
@@ -127,17 +187,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            
-            if location.y >= 768/2
-            {
-                gun2.shoot()
-            }
-            else
-            {
-                gun1.shoot()
-            }
-        }
 
+        }
         
     }
     
@@ -146,41 +197,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         for touch: AnyObject in touches
         {
             let location = touch.locationInNode(self)
-            if location.y >= 768/2
-                
-            {
-                gun2.runAction(SKAction.moveTo(location,duration: 0.1))
-            }
-            else
-            {
-                gun1.runAction(SKAction.moveTo(location,duration: 0.1))
-            }
+
+            player1.runAction(SKAction.moveTo(location,duration: 0.1))
         }
+    }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
+    {
+        
     }
    
     override func update(currentTime: CFTimeInterval)
     {
-        /* Called before each frame is rendered */
+
     }
     
     func didBeginContact(contact: SKPhysicsContact!)
     {
-        if contact.bodyA.node is Gun
-        {
-            let a : Gun = contact.bodyA.node as Gun
-            a.life = a.life - 1
-            if contact.bodyB.node is Gun
-            {
-            }
-            else
-            {
-                 contact.bodyB.node.removeFromParent()
-            }
-        }
-       
-     
+        
     }
     
-    
-    
+
 }
