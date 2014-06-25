@@ -11,17 +11,79 @@ import CoreGraphics
 
 var π = 3.141592
 
-class Spaceship : SKSpriteNode
+let heroCategory: UInt32 =  0x1 << 0;
+let enemyCategory: UInt32 =  0x1 << 1;
+let heroTurretCategory: UInt32 =  0x1 << 2;
+let enemyTurretCategory: UInt32 =  0x1 << 3;
+
+class Thing
+{
+    
+}
+
+class Ship : SKSpriteNode
 {
     var lifeLabel : SKLabelNode!
-    var life: Int!
+    var maximumLife : Float! = 100
+    var life: Float!
     {
         didSet
         {
-            lifeLabel.text = "❤️\(self.life)%"
+            lifeLabel.text = "\(Int(self.lifePercentaje))%❤️"
         }
     }
-    var objective: Spaceship!
+    var lifePercentaje : Float!
+    {
+        set
+        {
+            life =  newValue / 100 * maximumLife
+        }
+        get
+        {
+            return Float(self.life)/Float(self.maximumLife) * 100
+        }
+    
+    }
+    var objective: SKSpriteNode!
+    {
+        didSet
+        {
+            var range : SKRange = SKRange(constantValue: -π / 2)
+            var constraintToObjective : SKConstraint = SKConstraint.orientToNode(self.objective, offset:range)
+            self.constraints = [constraintToObjective]
+        }
+    }
+
+    init(texture: SKTexture!, color: UIColor!, size: CGSize)
+    {
+        super.init(texture: texture, color: color, size: size)
+    }
+    
+    init(texture: SKTexture!)
+    {
+        super.init(texture: texture)
+    }
+    
+    init(imageNamed name: String!)
+    {
+        super.init(imageNamed: name )
+        
+        // Setup Label
+        lifeLabel = SKLabelNode(fontNamed:"Chalkduster")
+        let midscreen = CGPoint(x: 200.0, y:100.0);
+        lifeLabel.fontSize = 65;
+        lifeLabel.position = midscreen
+        lifeLabel.fontColor = UIColor.whiteColor()
+        self.addChild(lifeLabel)
+    }
+
+}
+
+class Spaceship : Ship
+{
+    var gun: Gun!
+    
+    override var objective: SKSpriteNode!
     {
         didSet
         {
@@ -29,11 +91,9 @@ class Spaceship : SKSpriteNode
             var constraintToObjective : SKConstraint = SKConstraint.orientToNode(self.objective, offset:range)
             self.constraints = [constraintToObjective]
             
-            // Add objective to gun
-            gun.objective = objective
+            self.gun.objective = objective
         }
     }
-    var gun: Gun!
     
     init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
@@ -51,16 +111,6 @@ class Spaceship : SKSpriteNode
         
         // Setup physics body
         self.physicsBody = SKPhysicsBody(circleOfRadius: 200)
-        self.physicsBody.dynamic = true;
-        self.physicsBody.contactTestBitMask = 1
-        
-        // Setup Label
-        lifeLabel = SKLabelNode(fontNamed:"Chalkduster")
-        let midscreen = CGPoint(x: 200.0, y:100.0);
-        lifeLabel.fontSize = 65;
-        lifeLabel.position = midscreen
-        lifeLabel.fontColor = UIColor.whiteColor()
-        self.addChild(lifeLabel)
         
         //Setup Spaceship
         self.xScale = 0.15
@@ -69,7 +119,7 @@ class Spaceship : SKSpriteNode
         
         //Setup Guns
         gun = Gun(imageNamed: "Turret")
-        gun.position = CGPoint(x:500.0, y:0.0)
+        gun.position = CGPoint(x:0.0, y:0.0)
         gun.xScale = 0.25
         gun.yScale = 0.25
         
@@ -85,7 +135,7 @@ class Spaceship : SKSpriteNode
              self.gun.shoot()
         })
         
-        var wait = SKAction.waitForDuration(0.1)
+        var wait = SKAction.waitForDuration(0.5)
         var sequence = SKAction.sequence([shoot, wait])
         var repeat = SKAction.repeatActionForever(sequence)
         
@@ -96,14 +146,14 @@ class Spaceship : SKSpriteNode
 
 class Ammunition : SKSpriteNode
 {
-    var damage: Int = 1
-    
+    var damage : Float!
     init()
     {
         super.init(imageNamed: "spark")
         self.physicsBody = SKPhysicsBody(circleOfRadius: 1)
         self.xScale = 0.1
         self.yScale = 0.1
+        self.damage = 10
     }
     
     init(texture: SKTexture!, color: UIColor!, size: CGSize)
@@ -126,8 +176,7 @@ class Ammunition : SKSpriteNode
 
 class Gun : SKSpriteNode
 {
-    var life: Int!
-    var objective: Spaceship!
+    var objective: SKSpriteNode!
     {
         didSet
         {
@@ -157,17 +206,17 @@ class Gun : SKSpriteNode
     init(imageNamed name: String!)
     {
         super.init(imageNamed: name )
+       
+        self.physicsBody = SKPhysicsBody(circleOfRadius:10)
+        self.physicsBody.pinned = true
         
-        //Setup Gun
-        self.xScale = 1
-        self.yScale = 1
-        self.life = 100
-        
+        self.physicsBody.categoryBitMask = heroTurretCategory
+        self.physicsBody.contactTestBitMask = 0
+        self.physicsBody.collisionBitMask = 0
     }
     
     func shoot()
     {
-    
         var bullet = Ammunition()
         self.parent.parent.addChild(bullet)
         
@@ -177,13 +226,11 @@ class Gun : SKSpriteNode
         
         bullet.physicsBody.velocity = vector
         var point = self.convertPoint(CGPointZero, toNode: self.parent.parent)
-        bullet.position = CGPoint(x: point.x + 5 * cos(angulo) , y: point.y + 5 * sin(angulo))
-    }
-    
-    
-    func die()
-    {
-        self.removeFromParent()
+        bullet.position = CGPoint(x: point.x + 1 * cos(angulo) , y: point.y + 1 * sin(angulo))
+        
+        bullet.physicsBody.categoryBitMask = self.parent.physicsBody.categoryBitMask
+        bullet.physicsBody.contactTestBitMask = 0
+        bullet.physicsBody.collisionBitMask = 0
     }
 }
 
@@ -206,20 +253,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         player1 = Spaceship(imageNamed: "Spaceship")
         player2 = Spaceship(imageNamed: "Spaceship")
         
-        player1.life = 100
-        player2.life = 100
-     
+        player1.lifePercentaje = 100
+        player2.lifePercentaje = 200
+
+        player1.physicsBody.categoryBitMask = heroCategory
+        player1.physicsBody.contactTestBitMask = enemyCategory
+        player1.physicsBody.collisionBitMask = 0//enemyCategory
+        
+        player2.physicsBody.categoryBitMask = enemyCategory
+        player2.physicsBody.contactTestBitMask = heroCategory
+        player2.physicsBody.collisionBitMask = 0//heroCategory
+        
         player1.objective = player2
-        player2.gun.objective = player1
+        player2.objective = player1
         
         player1.shoot()
-        
+        player2.shoot()
         
         player1.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 200)
         player2.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 200)
         
         self.addChild(player1)
         self.addChild(player2)
+        
 
     }
     
@@ -294,10 +350,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             {
                 let ammo = contact.bodyB.node as Ammunition
                 ship.life = ship.life - ammo.damage
+                ammo.removeFromParent()
             }
-            
         }
         
+        if contact.bodyA.node is Ammunition
+        {
+            if contact.bodyB.node is Ammunition
+            {
+                let ammoA = contact.bodyA.node as Ammunition
+                let ammoB = contact.bodyB.node as Ammunition
+               // ammoA.removeFromParent()
+               // ammoB.removeFromParent()
+            }
+        }
+
         
     }
     
