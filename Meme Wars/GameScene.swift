@@ -16,13 +16,9 @@ let enemyCategory: UInt32 =  0x1 << 1;
 let heroTurretCategory: UInt32 =  0x1 << 2;
 let enemyTurretCategory: UInt32 =  0x1 << 3;
 
-class Thing
+class Spaceship : SKSpriteNode
 {
-    
-}
-
-class Ship : SKSpriteNode
-{
+    var gun: Gun!
     var lifeLabel : SKLabelNode!
     var maximumLife : Float! = 100
     var life: Float!
@@ -48,52 +44,15 @@ class Ship : SKSpriteNode
     {
         didSet
         {
-            var range : SKRange = SKRange(constantValue: -π / 2)
-            var constraintToObjective : SKConstraint = SKConstraint.orientToNode(self.objective, offset:range)
-            self.constraints = [constraintToObjective]
-        }
-    }
-
-    init(texture: SKTexture!, color: UIColor!, size: CGSize)
-    {
-        super.init(texture: texture, color: color, size: size)
-    }
-    
-    init(texture: SKTexture!)
-    {
-        super.init(texture: texture)
-    }
-    
-    init(imageNamed name: String!)
-    {
-        super.init(imageNamed: name )
-        
-        // Setup Label
-        lifeLabel = SKLabelNode(fontNamed:"Chalkduster")
-        let midscreen = CGPoint(x: 200.0, y:100.0);
-        lifeLabel.fontSize = 65;
-        lifeLabel.position = midscreen
-        lifeLabel.fontColor = UIColor.whiteColor()
-        self.addChild(lifeLabel)
-    }
-
-}
-
-class Spaceship : Ship
-{
-    var gun: Gun!
-    
-    override var objective: SKSpriteNode!
-    {
-        didSet
-        {
-            var range : SKRange = SKRange(constantValue: -π / 2)
-            var constraintToObjective : SKConstraint = SKConstraint.orientToNode(self.objective, offset:range)
-            self.constraints = [constraintToObjective]
-            
             self.gun.objective = objective
         }
     }
+
+    
+    init()
+    {
+        super.init()
+    }
     
     init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
@@ -108,7 +67,12 @@ class Spaceship : Ship
     init(imageNamed name: String!)
     {
         super.init(imageNamed: name )
-        
+        self.setup()
+ 
+    }
+    
+    func setup()
+    {
         // Setup physics body
         self.physicsBody = SKPhysicsBody(circleOfRadius: 200)
         
@@ -126,6 +90,14 @@ class Spaceship : Ship
         
         self.addChild(gun)
         
+        // Setup Label
+        lifeLabel = SKLabelNode(fontNamed:"Chalkduster")
+        let midscreen = CGPoint(x: 200.0, y:100.0);
+        lifeLabel.fontSize = 65;
+        lifeLabel.position = midscreen
+        lifeLabel.fontColor = UIColor.whiteColor()
+        self.addChild(lifeLabel)
+        
     }
     
     func shoot()
@@ -140,7 +112,6 @@ class Spaceship : Ship
         var repeat = SKAction.repeatActionForever(sequence)
         
         self.runAction(repeat)
-        
     }
 }
 
@@ -249,8 +220,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     func setup()
     {
+
+        //
+        var trollAtlas = SKTextureAtlas(named:"troll")
+        var textures = [trollAtlas.textureNamed("1"),
+                        trollAtlas.textureNamed("2"),
+                        trollAtlas.textureNamed("3")]
+        
+        var animation = SKAction.animateWithTextures(textures, timePerFrame:0.1)
+        //var animateForever = SKAction.repeatActionForever(animation)
+        
+        
+        
         //Setup Spaceships
         player1 = Spaceship(imageNamed: "Spaceship")
+        //player1.runAction(animateForever)
         player2 = Spaceship(imageNamed: "Spaceship")
         
         player1.lifePercentaje = 100

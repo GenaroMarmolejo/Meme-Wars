@@ -15,6 +15,7 @@
 		43F5CBFA194DF5F400419C19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43F5CBF8194DF5F400419C19 /* Main.storyboard */; };
 		43F5CBFC194DF5F400419C19 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43F5CBFB194DF5F400419C19 /* Images.xcassets */; };
 		43F5CC08194DF5F400419C19 /* Meme_WarsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5CC07194DF5F400419C19 /* Meme_WarsTests.swift */; };
+		43FB030D195B0FD700CCFBE8 /* troll.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 43FB030C195B0FD700CCFBE8 /* troll.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		43F5CC01194DF5F400419C19 /* Meme WarsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Meme WarsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F5CC06194DF5F400419C19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43F5CC07194DF5F400419C19 /* Meme_WarsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meme_WarsTests.swift; sourceTree = "<group>"; };
+		43FB030C195B0FD700CCFBE8 /* troll.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = troll.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				43F5CBF4194DF5F400419C19 /* GameScene.swift */,
 				43F5CBF6194DF5F400419C19 /* GameViewController.swift */,
 				43F5CBF8194DF5F400419C19 /* Main.storyboard */,
+				43FB030C195B0FD700CCFBE8 /* troll.atlas */,
 				43F5CBFB194DF5F400419C19 /* Images.xcassets */,
 				43F5CBEE194DF5F400419C19 /* Supporting Files */,
 			);
@@ -201,6 +204,7 @@
 				43C1E8841954BF2500FEF919 /* spark.png in Resources */,
 				43F5CBFC194DF5F400419C19 /* Images.xcassets in Resources */,
 				43F5CBF3194DF5F400419C19 /* GameScene.sks in Resources */,
+				43FB030D195B0FD700CCFBE8 /* troll.atlas in Resources */,
 				43F5CBFA194DF5F400419C19 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
