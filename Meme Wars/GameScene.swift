@@ -16,6 +16,8 @@ let enemyCategory: UInt32 =  0x1 << 1;
 let heroTurretCategory: UInt32 =  0x1 << 2;
 let enemyTurretCategory: UInt32 =  0x1 << 3;
 
+var speed = 1.0
+
 class Spaceship : SKSpriteNode
 {
     var gun: Gun!
@@ -75,6 +77,16 @@ class Spaceship : SKSpriteNode
     {
         // Setup physics body
         self.physicsBody = SKPhysicsBody(circleOfRadius: 200)
+     
+        
+        // Setup Label
+        lifeLabel = SKLabelNode(fontNamed:"Chalkduster")
+        let midscreen = CGPoint(x: 200.0, y:100.0);
+        lifeLabel.fontSize = 65;
+        lifeLabel.position = midscreen
+        lifeLabel.fontColor = UIColor.whiteColor()
+        self.addChild(lifeLabel)
+        
         
         //Setup Spaceship
         self.xScale = 0.15
@@ -89,15 +101,7 @@ class Spaceship : SKSpriteNode
         
         
         self.addChild(gun)
-        
-        // Setup Label
-        lifeLabel = SKLabelNode(fontNamed:"Chalkduster")
-        let midscreen = CGPoint(x: 200.0, y:100.0);
-        lifeLabel.fontSize = 65;
-        lifeLabel.position = midscreen
-        lifeLabel.fontColor = UIColor.whiteColor()
-        self.addChild(lifeLabel)
-        
+
     }
     
     func shoot()
@@ -110,6 +114,7 @@ class Spaceship : SKSpriteNode
         var wait = SKAction.waitForDuration(0.5)
         var sequence = SKAction.sequence([shoot, wait])
         var repeat = SKAction.repeatActionForever(sequence)
+        repeat.speed = speed
         
         self.runAction(repeat)
     }
@@ -282,6 +287,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             let location = touch.locationInNode(self)
             self.physicsWorld.speed = 1.0
+            speed = self.physicsWorld.speed
         }
         
     }
@@ -299,6 +305,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
     {
         self.physicsWorld.speed = 0.2
+        speed = self.physicsWorld.speed
     }
    
     override func update(currentTime: CFTimeInterval)
