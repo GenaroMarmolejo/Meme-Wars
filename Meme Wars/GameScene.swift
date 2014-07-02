@@ -292,7 +292,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     func movePlayer1ToLocation( location : CGPoint )
     {
         var move = SKAction.moveTo(location, duration: self.distanceBetweenPoints(pointA: player1.position, pointB: location) / 1000)
-        player1.runAction(move)
+        player1.runAction(move, withKey:"move")
     }
     
     func distanceBetweenPoints(#pointA: CGPoint, pointB: CGPoint) -> (distance:Double)
@@ -321,9 +321,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             let location = touch.locationInNode(self)
             
-            self.slowMotion = false
-            
             self.movePlayer1ToLocation(location)
+            
+            if self.distanceBetweenPoints(pointA: player1.position, pointB: location) < 100
+
+            {
+                self.slowMotion = false
+            }
         }
         
     }
@@ -334,12 +338,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             let location = touch.locationInNode(self)
             self.movePlayer1ToLocation(location)
+            
+            if self.distanceBetweenPoints(pointA: player1.position, pointB: location) < 100
+                
+            {
+                self.slowMotion = false
+            }
         }
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
     {
         self.slowMotion = true
+        player1.removeActionForKey("move")
     }
    
     override func update(currentTime: CFTimeInterval)
