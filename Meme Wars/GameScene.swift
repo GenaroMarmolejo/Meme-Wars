@@ -9,14 +9,12 @@
 import SpriteKit
 import CoreGraphics
 
-var π = 3.141592
+let π = 3.141592
 
 let heroCategory: UInt32 =  0x1 << 0;
 let enemyCategory: UInt32 =  0x1 << 1;
 let heroTurretCategory: UInt32 =  0x1 << 2;
 let enemyTurretCategory: UInt32 =  0x1 << 3;
-
-var speed = 1.0
 
 class Spaceship : SKSpriteNode
 {
@@ -30,6 +28,7 @@ class Spaceship : SKSpriteNode
             lifeLabel.text = "\(Int(self.lifePercentaje))%❤️"
         }
     }
+    
     var lifePercentaje : Float!
     {
         set
@@ -40,8 +39,8 @@ class Spaceship : SKSpriteNode
         {
             return Float(self.life)/Float(self.maximumLife) * 100
         }
-    
     }
+    
     var objective: SKSpriteNode!
     {
         didSet
@@ -99,7 +98,6 @@ class Spaceship : SKSpriteNode
         gun.xScale = 0.25
         gun.yScale = 0.25
         
-        
         self.addChild(gun)
 
     }
@@ -111,10 +109,9 @@ class Spaceship : SKSpriteNode
              self.gun.shoot()
         })
         
-        var wait = SKAction.waitForDuration(0.5)
+        var wait = SKAction.waitForDuration(0.1)
         var sequence = SKAction.sequence([shoot, wait])
         var repeat = SKAction.repeatActionForever(sequence)
-        repeat.speed = speed
         
         self.runAction(repeat)
     }
@@ -146,7 +143,6 @@ class Ammunition : SKSpriteNode
     {
         super.init(imageNamed: name)
     }
-    
     
 }
 
@@ -198,7 +194,7 @@ class Gun : SKSpriteNode
         
         var offset : CGFloat = CGFloat(π/2)
         var angulo = self.zRotation + self.parent.zRotation + offset
-        var vector = CGVectorMake(500.0 * cos(angulo), 500.0 * sin(angulo) )
+        var vector = CGVectorMake( 1000.0 * cos(angulo), 1000.0 * sin(angulo) )
         
         bullet.physicsBody.velocity = vector
         var point = self.convertPoint(CGPointZero, toNode: self.parent.parent)
@@ -213,13 +209,28 @@ class Gun : SKSpriteNode
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
     var player1: Spaceship!
-    var player2: Spaceship!
-    
-    func clean()
+    var slowMotion : Bool!
     {
-        for sprite:AnyObject in self.children
+        didSet
         {
-            sprite.removeFromParent()
+            if slowMotion == false
+            {
+                self.physicsWorld.speed = 1.0
+            }
+            else
+            {
+                self.physicsWorld.speed = 0.1
+            }
+            self.setSpeedOnChildren()
+        }
+    }
+    
+    func setSpeedOnChildren()
+    {
+        for child : AnyObject in self.children
+        {
+            let node = child as SKNode
+            node.speed = self.physicsWorld.speed
         }
     }
     
@@ -233,17 +244,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                         trollAtlas.textureNamed("3")]
         
         var animation = SKAction.animateWithTextures(textures, timePerFrame:0.1)
-        //var animateForever = SKAction.repeatActionForever(animation)
+        var animateForever = SKAction.repeatActionForever(animation)
         
         
         
         //Setup Spaceships
         player1 = Spaceship(imageNamed: "Spaceship")
-        //player1.runAction(animateForever)
-        player2 = Spaceship(imageNamed: "Spaceship")
+        player1.runAction(animateForever)
+        var player2 = Spaceship(imageNamed: "Spaceship")
         
         player1.lifePercentaje = 100
-        player2.lifePercentaje = 200
+        player2.lifePercentaje = 100
 
         player1.physicsBody.categoryBitMask = heroCategory
         player1.physicsBody.contactTestBitMask = enemyCategory
@@ -253,7 +264,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         player2.physicsBody.contactTestBitMask = heroCategory
         player2.physicsBody.collisionBitMask = 0//heroCategory
         
-        player1.objective = player2
+        //player1.objective = player2
         player2.objective = player1
         
         player1.shoot()
@@ -265,7 +276,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.addChild(player1)
         self.addChild(player2)
         
-
+        player2.zRotation = π
+        
+        self.slowMotion = false
+    }
+    
+    func clean()
+    {
+        for sprite:AnyObject in self.children
+        {
+            sprite.removeFromParent()
+        }
+    }
+    
+    func movePlayer1ToLocation( location : CGPoint )
+    {
+        var move = SKAction.moveTo(location, duration: self.distanceBetweenPoints(pointA: player1.position, pointB: location) / 1000)
+        player1.runAction(move)
+    }
+    
+    func distanceBetweenPoints(#pointA: CGPoint, pointB: CGPoint) -> (distance:Double)
+    {
+        var dx = pointA.x - pointB.x
+        var dy = pointA.y - pointB.y
+        return sqrt(dx * dx + dy * dy)
     }
     
     override func didMoveToView(view: SKView)
@@ -286,8 +320,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         for touch: AnyObject in touches
         {
             let location = touch.locationInNode(self)
-            self.physicsWorld.speed = 1.0
-            speed = self.physicsWorld.speed
+            
+            self.slowMotion = false
+            
+            self.movePlayer1ToLocation(location)
         }
         
     }
@@ -297,19 +333,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         for touch: AnyObject in touches
         {
             let location = touch.locationInNode(self)
-
-            player1.runAction(SKAction.moveTo(location,duration: 0.1))
+            self.movePlayer1ToLocation(location)
         }
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
     {
-        self.physicsWorld.speed = 0.2
-        speed = self.physicsWorld.speed
+        self.slowMotion = true
     }
    
     override func update(currentTime: CFTimeInterval)
     {
+        // Clean nodes
         for child : AnyObject in self.children
         {
             if child.position.x > self.size.width
@@ -331,6 +366,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             
         }
     }
+    
     
     func didBeginContact(contact: SKPhysicsContact!)
     {
