@@ -104,16 +104,7 @@ class Spaceship : SKSpriteNode
     
     func shoot()
     {
-        var shoot = SKAction.runBlock({
-            
-             self.gun.shoot()
-        })
-        
-        var wait = SKAction.waitForDuration(0.1)
-        var sequence = SKAction.sequence([shoot, wait])
-        var repeat = SKAction.repeatActionForever(sequence)
-        
-        self.runAction(repeat)
+        self.gun.shooting = true
     }
 }
 
@@ -160,6 +151,29 @@ class Gun : SKSpriteNode
         }
     }
     
+    var bulletsPerSecond = 100.0
+    
+    var shooting : Bool!
+    {
+        didSet
+        {
+            if shooting == true
+            {
+                var shoot = SKAction.runBlock({ self.shoot() })
+                
+                var wait = SKAction.waitForDuration( 1.0 / bulletsPerSecond )
+                var sequence = SKAction.sequence([shoot, wait])
+                var repeat = SKAction.repeatActionForever(sequence)
+                
+                self.runAction(repeat, withKey: "shoot")
+            }
+            else
+            {
+                self.removeActionForKey("shoot")
+            }
+        }
+    }
+    
     init()
     {
         super.init()
@@ -178,7 +192,11 @@ class Gun : SKSpriteNode
     init(imageNamed name: String!)
     {
         super.init(imageNamed: name )
-       
+        self.setup()
+    }
+    
+    func setup()
+    {
         self.physicsBody = SKPhysicsBody(circleOfRadius:10)
         self.physicsBody.pinned = true
         
@@ -203,7 +221,10 @@ class Gun : SKSpriteNode
         bullet.physicsBody.categoryBitMask = self.parent.physicsBody.categoryBitMask
         bullet.physicsBody.contactTestBitMask = 0
         bullet.physicsBody.collisionBitMask = 0
+        
     }
+    
+
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate

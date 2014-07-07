@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4385ADFC196B0BA500900C60 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4385ADFB196B0BA500900C60 /* MyParticle.sks */; };
+		4385ADFE196B0C6300900C60 /* bg-cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = 4385ADFD196B0C6300900C60 /* bg-cloud.png */; };
 		43C1E8841954BF2500FEF919 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 43C1E8821954BF2500FEF919 /* spark.png */; };
 		43F5CBF1194DF5F400419C19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5CBF0194DF5F400419C19 /* AppDelegate.swift */; };
 		43F5CBF3194DF5F400419C19 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 43F5CBF2194DF5F400419C19 /* GameScene.sks */; };
@@ -29,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4385ADFB196B0BA500900C60 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
+		4385ADFD196B0C6300900C60 /* bg-cloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-cloud.png"; sourceTree = "<group>"; };
 		43C1E8821954BF2500FEF919 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		43F5CBEB194DF5F400419C19 /* Meme Wars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Meme Wars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F5CBEF194DF5F400419C19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -84,11 +88,13 @@
 			isa = PBXGroup;
 			children = (
 				43F5CBF0194DF5F400419C19 /* AppDelegate.swift */,
-				43F5CBF2194DF5F400419C19 /* GameScene.sks */,
-				43C1E8821954BF2500FEF919 /* spark.png */,
-				43F5CBF4194DF5F400419C19 /* GameScene.swift */,
-				43F5CBF6194DF5F400419C19 /* GameViewController.swift */,
 				43F5CBF8194DF5F400419C19 /* Main.storyboard */,
+				43F5CBF6194DF5F400419C19 /* GameViewController.swift */,
+				43F5CBF4194DF5F400419C19 /* GameScene.swift */,
+				43F5CBF2194DF5F400419C19 /* GameScene.sks */,
+				4385ADFB196B0BA500900C60 /* MyParticle.sks */,
+				43C1E8821954BF2500FEF919 /* spark.png */,
+				4385ADFD196B0C6300900C60 /* bg-cloud.png */,
 				43FB030C195B0FD700CCFBE8 /* troll.atlas */,
 				43F5CBFB194DF5F400419C19 /* Images.xcassets */,
 				43F5CBEE194DF5F400419C19 /* Supporting Files */,
@@ -201,7 +207,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4385ADFE196B0C6300900C60 /* bg-cloud.png in Resources */,
 				43C1E8841954BF2500FEF919 /* spark.png in Resources */,
+				4385ADFC196B0BA500900C60 /* MyParticle.sks in Resources */,
 				43F5CBFC194DF5F400419C19 /* Images.xcassets in Resources */,
 				43F5CBF3194DF5F400419C19 /* GameScene.sks in Resources */,
 				43FB030D195B0FD700CCFBE8 /* troll.atlas in Resources */,
