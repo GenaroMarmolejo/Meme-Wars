@@ -250,7 +250,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         //Setup Spaceships
         player1 = Spaceship(imageNamed: "Spaceship")
-        player1.runAction(animateForever)
+        //player1.runAction(animateForever)
         var player2 = Spaceship(imageNamed: "Spaceship")
         
         player1.lifePercentaje = 100
@@ -291,8 +291,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     func movePlayer1ToLocation( location : CGPoint )
     {
-        var move = SKAction.moveTo(location, duration: self.distanceBetweenPoints(pointA: player1.position, pointB: location) / 1000)
-        player1.runAction(move, withKey:"move")
+        var velocity = 1000.0
+        var move = SKAction.moveTo(location, duration: self.distanceBetweenPoints(pointA: player1.position, pointB: location) / velocity)
+        player1.runAction(move)//, withKey:"move")
     }
     
     func distanceBetweenPoints(#pointA: CGPoint, pointB: CGPoint) -> (distance:Double)
@@ -323,11 +324,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             
             self.movePlayer1ToLocation(location)
             
-            if self.distanceBetweenPoints(pointA: player1.position, pointB: location) < 100
+            self.slowMotion = false
 
-            {
-                self.slowMotion = false
-            }
         }
         
     }
@@ -338,19 +336,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             let location = touch.locationInNode(self)
             self.movePlayer1ToLocation(location)
-            
-            if self.distanceBetweenPoints(pointA: player1.position, pointB: location) < 100
-                
-            {
-                self.slowMotion = false
-            }
+            self.slowMotion = false
         }
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
     {
         self.slowMotion = true
-        player1.removeActionForKey("move")
+        player1.removeAllActions()
+        player1.shoot()
     }
    
     override func update(currentTime: CFTimeInterval)
